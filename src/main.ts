@@ -6,19 +6,19 @@ dotenv.config({path: process.env.NODE_ENV === 'prod' ? `.env.prod` : `.env.devel
 const args = process.argv.slice(2);
 import { 
   web3Ws
-} from "./src/constants";
+} from "./constants";
 import {
   nextBlockEst,
   loadPools,
   setBlockType,
   setNextBlockEst,
-} from "./src/store";
+} from "./store";
 import {
   handleBlock,
   handleNewBlock,
   handlePendingTransaction,
   getContractBalance,
-} from "./src/handler";
+} from "./handler";
 import {delay} from "@nomiclabs/hardhat-etherscan/dist/src/etherscan/EtherscanService";
 import colors from "colors";
 import { BigNumber } from "bignumber.js";
