@@ -56,6 +56,7 @@ contract UltimaBalancer {
         uint256 a2;
         uint256 b2;
     }
+    
     /// 199000 gas with swaps 
     /// 72091 gas without swaps
     /// 71490 vs 75158 getReserves vs tokenBalanceOf (4 calls )
@@ -75,39 +76,6 @@ contract UltimaBalancer {
             address(this).balance;
         }
     }
-
-    /// @dev Compare price denominated in quote token between two pools
-    /// We borrow base token by using flash swap from lower price pool and sell them to higher price pool
-    /// 37736 gas before added function tokenBalanceOf
-    // function getOrderedReserves(
-    //     address pool0, 
-    //     address pool1
-    // )
-    //     internal
-    //     view
-    //     returns (
-    //         address lowerPool,
-    //         address higherPool,
-    //         OrderedReserves memory orderedReserves
-    //     )
-    // {
-    //     (uint256 pool0Reserve0, uint256 pool0Reserve1, ) = IUniswapV2Pair(pool0).getReserves();
-    //     (uint256 pool1Reserve0, uint256 pool1Reserve1, ) = IUniswapV2Pair(pool1).getReserves();
-        
-    //     (uint256 price0, uint256 price1) = (pool0Reserve1 * 10**18 / pool0Reserve0, pool1Reserve1 * 10**18 / pool1Reserve0);
-    //     // console.log("prices", price0, price1); // 333333333333333333 | 328939476759044421
-    //     // console.log("pricescheck", price0 < price1); 
-                
-    //     if (price0 < price1) {
-    //         (lowerPool, higherPool) = (pool0, pool1);
-    //         (orderedReserves.a1, orderedReserves.b1, orderedReserves.a2, orderedReserves.b2) = (pool0Reserve1, pool0Reserve0, pool1Reserve1, pool1Reserve0);
-    //     } else {
-    //         (lowerPool, higherPool) = (pool1, pool0);
-    //         (orderedReserves.a1, orderedReserves.b1, orderedReserves.a2, orderedReserves.b2) = (pool1Reserve1, pool1Reserve0, pool0Reserve1, pool0Reserve0);
-    //     }
-    //     // console.log("lower pool", lowerPool, higherPool);
-    //     // console.log(orderedReserves.a1, orderedReserves.a2, orderedReserves.b1,orderedReserves.b2);
-    // }
 
     function getOrderedReserves(
         address pool0, 
@@ -230,43 +198,6 @@ contract UltimaBalancer {
         }
         res = res / 10**3;
     }
-    // function sqrt(uint256 x) internal pure returns (uint256 z) {
-    //     /// @solidity memory-safe-assembly
-    //     assembly {
-    //         let y := x // We start y at x, which will help us make our initial estimate.
-
-    //         z := 181 // The "correct" value is 1, but this saves a multiplication later.
-
-    //         if iszero(lt(y, 0x10000000000000000000000000000000000)) {
-    //             y := shr(128, y)
-    //             z := shl(64, z)
-    //         }
-    //         if iszero(lt(y, 0x1000000000000000000)) {
-    //             y := shr(64, y)
-    //             z := shl(32, z)
-    //         }
-    //         if iszero(lt(y, 0x10000000000)) {
-    //             y := shr(32, y)
-    //             z := shl(16, z)
-    //         }
-    //         if iszero(lt(y, 0x1000000)) {
-    //             y := shr(16, y)
-    //             z := shl(8, z)
-    //         }
-
-    //         z := shr(18, mul(z, add(y, 65536))) // A mul() is saved from starting z at 181.
-
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-    //         z := shr(1, add(z, div(x, z)))
-
-    //         z := sub(z, lt(div(x, z), z))
-    //     }
-    // }
 
     function getAmountOut(
         uint256 input_amount,
